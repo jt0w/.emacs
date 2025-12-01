@@ -279,7 +279,7 @@
      "n f" 'org-roam-node-find
      "n g" 'org-roam-graph
      "n i" 'org-roam-node-insert
-     "n-c" 'org-roam-capture)
+     "n c" 'org-roam-capture)
     :init
     (setq org-roam-directory "~/org-roam/")
     :config
@@ -332,7 +332,7 @@ Idk why nix does not have a treesitter parser yet.
     (doom-themes-enable-bold t)   ; if nil, bold is universally disabled
     (doom-themes-enable-italic t) ; if nil, italics is universally disabled
     :config
-    (load-theme 'doom-moonlight t)
+    (load-theme 'doom-gruvbox t)
 
     (doom-themes-visual-bell-config)
     (doom-themes-org-config))
