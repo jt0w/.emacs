@@ -54,7 +54,7 @@
   (recentf-mode 1)
   (global-eldoc-mode 1)
 
-  (set-frame-font "Iosevka Jt0w 14" nil t)
+  (set-frame-font "Iosevka Jt0w 14")
 #+end_src
 ** Evil
 *** Basic
