@@ -110,7 +110,16 @@
   (use-package general
     :demand t
     :config
-    (general-evil-setup))
+    (general-evil-setup)
+    :general
+    (general-define-key
+     :states 'normal
+     :keymaps '(normal visual emacs override)
+     :prefix "SPC"
+     "C" 'compile
+     "c" 'recompile
+     )
+    )
 #+end_src
 ** Sitting the tree
 #+begin_src elisp
