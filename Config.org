@@ -1,12 +1,12 @@
 #+title: Emacs Config
 #+property: header-args :tangle yes :lexical t
 
-* Table of Contents :toc:
+* Table of Contents :TOC:
 - [[#emacs-config][Emacs Config]]
   - [[#nix-shenanigans][Nix shenanigans]]
+  - [[#general-keybindings][General (Keybindings)]]
   - [[#options][Options]]
   - [[#evil][Evil]]
-  - [[#general-keybindings][General (Keybindings)]]
   - [[#sitting-the-tree][Sitting the tree]]
   - [[#utility-plugins][Utility Plugins]]
   - [[#dired][Dired]]
@@ -28,33 +28,68 @@
   (require 'bind-key)
   (require 'general)
 #+end_src
+
+** General (Keybindings)
+#+begin_src elisp
+  (use-package general
+    :demand t
+    :config
+    (general-evil-setup))
+#+end_src
+
 ** Options
 #+begin_src elisp
-  (setq use-package-always-ensure t)
-  (tool-bar-mode 0)
-  (menu-bar-mode 0)
-  (scroll-bar-mode 0)
-  (column-number-mode 1)
-  (show-paren-mode 1)
+  (use-package emacs
+    :init
+    (setq use-package-always-ensure t
+  		initial-buffer-choice t
+  		make-backup-files nil
+  		display-line-numbers-type 'relative
+  		scroll-margin 15
+  		show-trailing-whitespace t
+  		custom-safe-themes t
+  		use-short-answers t
+  		)
+    :config
+    (setq-default
+     indents-tab-mode nil
+     tab-width 4
+     )
+    (tool-bar-mode 0)
+    (menu-bar-mode 0)
+    (scroll-bar-mode 0)
+    (column-number-mode 1)
+    (show-paren-mode 1)
+    (global-display-line-numbers-mode 1)
+    (which-key-mode 1)
+    (global-auto-revert-mode)
+    (savehist-mode 1)
+    (recentf-mode 1)
+    (global-eldoc-mode 1)
+    (set-frame-font "Iosevka Jt0w 14")
 
-  (setq initial-buffer-choice t)
-  (setq make-backup-files nil)
+    (setq-default mode-line-format '(" "
+                             (:eval mode-line-modified)
+                             (:eval evil-mode-line-tag)
+                             " "
+                             (:eval (propertize (buffer-name)) 'face 'font-lock-constant-face)
+                             " %l:%c (%p)"
 
-  (global-display-line-numbers-mode 1)
-  (setq display-line-numbers-type 'relative)
+                             (:eval (when-let (vc vc-mode)
+  									(list " "
+  										  (propertize (substring vc 5)
+  													  'face 'font-lock-comment-face)
+  										  " ")))
 
-  (setq scroll-margin 15)
-
-  (which-key-mode 1)
-  (global-auto-revert-mode)
-
-  (setq-default show-trailing-whitespace t)
-
-  (savehist-mode 1)
-  (recentf-mode 1)
-  (global-eldoc-mode 1)
-
-  (set-frame-font "Iosevka Jt0w 14")
+                             mode-line-format-right-align
+                             "  "
+                             (:eval (propertize mode-name 'face 'font-lock-constant-face))
+                             "  "
+                             (:eval mode-line-misc-info)
+                             ))
+    :general-config
+    ("<escape>" 'keyboard-escape-quit)
+    )
 #+end_src
 ** Evil
 *** Basic
@@ -87,7 +122,25 @@
     (evil-global-set-key 'normal (kbd "C-l") 'evil-window-right)
 
     (with-eval-after-load 'org
-      (evil-define-key 'normal org-mode-map (kbd "RET") 'org-open-at-point)))
+  	(evil-define-key 'normal org-mode-map (kbd "RET") 'org-open-at-point))
+    :general-config
+    (:states '(normal motion visual) :keymaps 'override :prefix "SPC"
+  		   "f" 'find-file
+  		   "e" (lambda ()
+  				 (interactive)
+  				 (dired default-directory))
+  		   "C" 'compile
+  		   "c" 'recompile
+  		   "b" 'consult-buffer
+  		   "gs" 'magit-status
+  		   "p" '(:keymap project-prefix-map :which-key "project")
+  		   "n t" 'org-roam-buffer-toggle
+  		   "n f" 'org-roam-node-find
+  		   "n g" 'org-roam-graph
+  		   "n i" 'org-roam-node-insert
+  		   "n c" 'org-roam-capture
+  		   )
+    )
 #+end_src
 *** Evil-Collection
 #+begin_src elisp
@@ -105,22 +158,6 @@
   (use-package undo-fu-session
     :init (undo-fu-session-global-mode))
 #+end_src
-** General (Keybindings)
-#+begin_src elisp
-  (use-package general
-    :demand t
-    :config
-    (general-evil-setup)
-    :general
-    (general-define-key
-     :states 'normal
-     :keymaps '(normal visual emacs override)
-     :prefix "SPC"
-     "C" 'compile
-     "c" 'recompile
-     )
-    )
-#+end_src
 ** Sitting the tree
 #+begin_src elisp
   (use-package treesit-auto
@@ -132,18 +169,20 @@
 #+end_src
 ** Utility Plugins
 #+begin_src elisp
-  (use-package which-key
-    :ensure nil
-    :init (which-key-mode))
+     (use-package which-key
+       :ensure nil
+       :config
+       (which-key-mode)
+  	 (which-key-setup-minibuffer))
 
-  (use-package move-text
-    :config
-    (global-set-key (kbd "M-K") 'move-text-up)
-    (global-set-key (kbd "M-J") 'move-text-down))
+     (use-package move-text
+       :config
+       (global-set-key (kbd "M-K") 'move-text-up)
+       (global-set-key (kbd "M-J") 'move-text-down))
 
-  (use-package beacon
-    :config
-    (beacon-mode))
+     (use-package beacon
+       :config
+       (beacon-mode))
 #+end_src
 ** Dired
 #+begin_src elisp
@@ -153,18 +192,7 @@
     dired-listing-switches "-alh"
     dired-mouse-drag-files t
     :init
-    (setq-default dired-dwim-target t)
-    :general
-    (general-define-key
-     :states 'normal
-     :keymaps '(normal visual emacs override)
-     :prefix "SPC"
-     "f" 'find-file
-     "e" (lambda ()
-  	 (interactive)
-  	  (dired default-directory))
-     )
-    )
+    (setq-default dired-dwim-target t))
 #+end_src
 ** Vterm
 #+begin_src elisp
@@ -176,7 +204,7 @@
 #+end_src
 ** Completion
 *** Marginalia
-  #+begin_src elisp
+#+begin_src elisp
   (use-package marginalia
     :config
     (marginalia-mode))
@@ -192,31 +220,19 @@
 #+end_src
 *** Consult
 #+begin_src elisp
-  (use-package consult
-    :general
-    :general
-    (general-define-key
-     :states 'normal
-     :keymaps '(normal visual emacs override)
-     :prefix "SPC"
-     "b" 'consult-buffer
-     )
-    )
+  (use-package consult)
 #+end_src
 *** Corfu
 #+begin_src elisp
   (use-package corfu
-    :init
-    (setq corfu-cycle t)
-    (setq corfu-auto t)
-    (setq corfu-auto-prefix 2)
-    (setq corfu-auto-delay 0.0)
-    (setq corfu-echo-documentation 0.25)
-    (setq corfu-preview-current 'insert)
-    (setq corfu-preselect-first nil)
     :config
     (global-corfu-mode)
-    (corfu-popupinfo-mode))
+    (corfu-popupinfo-mode)
+    :custom
+    (corfu-auto t)
+    (corfu-count 8)
+    (corfu-auto-prefix 2)
+    )
 #+end_src
 *** Orderless
 #+begin_src elisp
@@ -235,13 +251,6 @@
 *** Magit
 #+begin_src elisp
   (use-package magit
-    :general
-    (general-define-key
-     :states 'normal
-     :keymaps '(normal visual emacs override)
-     :prefix "SPC"
-     "gs" 'magit-status
-     )
     :config
     (magit-auto-revert-mode))
 
@@ -252,7 +261,7 @@
 
   (with-eval-after-load 'transient
     (define-key transient-map (kbd "<escape>") 'transient-quit-one))
-#+end_src
+#+end_srC
 *** Forge
 #+begin_src elisp
   (use-package forge
@@ -261,14 +270,7 @@
 ** Project
 #+begin_src elisp
   (use-package project
-    :ensure nil
-    :general
-    (general-define-key
-     :states 'normal
-     :keymaps '(normal visual emacs override)
-     :prefix "SPC"
-     "p" '(:keymap project-prefix-map :which-key "project"))
-    )
+    :ensure nil)
 #+end_src
 ** Org
 #+begin_src elisp
@@ -284,17 +286,6 @@
 #+begin_src elisp
   (use-package org-roam
     :after org
-    :general
-    (general-define-key
-     :states 'normal
-     :keymaps '(normal visual emacs override)
-     :prefix "SPC"
-     "n t" 'org-roam-buffer-toggle
-     "n f" 'org-roam-node-find
-     "n g" 'org-roam-graph
-     "n i" 'org-roam-node-insert
-     "n c" 'org-roam-capture)
-    :init
     (setq org-roam-directory "~/org-roam/")
     :config
     (org-roam-db-autosync-mode))
@@ -313,7 +304,7 @@
   (use-package toc-org
     :after org
     :hook ((org-mode . toc-org-mode)
-           (markdown-mode . toc-org-mode)))
+  		 (markdown-mode . toc-org-mode)))
 #+end_src
 *** Evil Org
 #+begin_src elisp
@@ -346,7 +337,7 @@ Idk why nix does not have a treesitter parser yet.
     (doom-themes-enable-bold t)   ; if nil, bold is universally disabled
     (doom-themes-enable-italic t) ; if nil, italics is universally disabled
     :config
-    (load-theme 'doom-gruvbox t)
+    (load-theme 'doom-tomorrow-night t)
 
     (doom-themes-visual-bell-config)
     (doom-themes-org-config))
@@ -366,9 +357,9 @@ Idk why nix does not have a treesitter parser yet.
 *** erc
 #+begin_src elisp
   (add-hook 'erc-mode-hook
-            (lambda ()
-              (setq show-trailing-whitespace nil)))
+  		  (lambda ()
+  			(setq show-trailing-whitespace nil)))
   (add-hook 'erc-list-mode-hook
-            (lambda ()
-              (setq show-trailing-whitespace nil)))
+  		  (lambda ()
+  			(setq show-trailing-whitespace nil)))
 #+end_src
