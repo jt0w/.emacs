@@ -344,8 +344,8 @@ Idk why nix does not have a treesitter parser yet.
 #+end_src
 *** Transparency
 #+begin_src elisp
-  (set-frame-parameter nil 'alpha-background 90) ; For current frame
-  (add-to-list 'default-frame-alist '(alpha-background . 90)) ; For all new frames henceforth
+  (set-frame-parameter nil 'alpha-background 95) ; For current frame
+  (add-to-list 'default-frame-alist '(alpha-background . 95)) ; For all new frames henceforth
 #+end_src
 
 ** Misc
