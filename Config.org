@@ -67,6 +67,7 @@
     (recentf-mode 1)
     (global-eldoc-mode 1)
     (set-frame-font "Iosevka Jt0w 14")
+    (add-to-list 'default-frame-alist '(font . "Iosevka Jt0w 14"))
 
     (setq-default mode-line-format '(" "
                              (:eval mode-line-modified)
