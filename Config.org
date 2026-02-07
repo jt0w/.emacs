@@ -352,10 +352,8 @@ Idk why nix does not have a treesitter parser yet.
 #+end_src
 *** Ansi sequences in comp-mode
 #+begin_src elisp
-  (require 'ansi-color)
-  (defun colorize-compilation-buffer ()
-    (ansi-color-apply-on-region compilation-filter-start (point))
-  (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+(use-package ansi-color
+    :hook (compilation-filter . ansi-color-compilation-filter))
 #+end_src
 ** Misc
 *** elcord
