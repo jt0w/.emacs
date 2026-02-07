@@ -42,14 +42,14 @@
   (use-package emacs
     :init
     (setq use-package-always-ensure t
-  		initial-buffer-choice t
-  		make-backup-files nil
-  		display-line-numbers-type 'relative
-  		scroll-margin 15
-  		show-trailing-whitespace t
-  		custom-safe-themes t
-  		use-short-answers t
-  		)
+          initial-buffer-choice t
+          make-backup-files nil
+          display-line-numbers-type 'relative
+          scroll-margin 15
+          show-trailing-whitespace t
+          custom-safe-themes t
+          use-short-answers t
+          )
     :config
     (setq-default
      indents-tab-mode nil
@@ -70,24 +70,26 @@
     (add-to-list 'default-frame-alist '(font . "Iosevka Jt0w 14"))
 
     (setq-default mode-line-format '(" "
-                             (:eval mode-line-modified)
-                             (:eval evil-mode-line-tag)
-                             " "
-                             (:eval (propertize (buffer-name)) 'face 'font-lock-constant-face)
-                             " %l:%c (%p)"
+  								   (:eval mode-line-modified)
+  								   (:eval evil-mode-line-tag)
+  								   " "
+  								   (:eval (propertize (buffer-name) 'face 'font-lock-constant-face))
+  								   (:eval (when-let ((proc mode-line-process)) (list  " " proc " ")))
+  								   " %l:%c (%p)"
 
-                             (:eval (when-let (vc vc-mode)
-  									(list " "
-  										  (propertize (substring vc 5)
-  													  'face 'font-lock-comment-face)
-  										  " ")))
+                                     (:eval (when-let ((vc vc-mode))
+                                              (list " "
+                                                    (propertize (substring vc 5)
+                                                                'face 'font-lock-comment-face)
+                                                    " ")))
 
-                             mode-line-format-right-align
-                             "  "
-                             (:eval (propertize mode-name 'face 'font-lock-constant-face))
-                             "  "
-                             (:eval mode-line-misc-info)
-                             ))
+  								   mode-line-format-right-align
+  								   "  "
+  								   (:eval (propertize mode-name 'face 'font-lock-constant-face))
+  								   "  "
+  								   mode-line-misc-info
+    								   mode-line-end-spaces
+  								   ))
     :general-config
     ("<escape>" 'keyboard-escape-quit)
     )
@@ -170,20 +172,20 @@
 #+end_src
 ** Utility Plugins
 #+begin_src elisp
-     (use-package which-key
-       :ensure nil
-       :config
-       (which-key-mode)
-  	 (which-key-setup-minibuffer))
+  (use-package which-key
+    :ensure nil
+    :config
+    (which-key-mode)
+    (which-key-setup-minibuffer))
 
-     (use-package move-text
-       :config
-       (global-set-key (kbd "M-K") 'move-text-up)
-       (global-set-key (kbd "M-J") 'move-text-down))
+  (use-package move-text
+    :config
+    (global-set-key (kbd "M-K") 'move-text-up)
+    (global-set-key (kbd "M-J") 'move-text-down))
 
-     (use-package beacon
-       :config
-       (beacon-mode))
+  (use-package beacon
+    :config
+    (beacon-mode))
 #+end_src
 ** Dired
 #+begin_src elisp
