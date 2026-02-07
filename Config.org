@@ -350,7 +350,15 @@ Idk why nix does not have a treesitter parser yet.
   (set-frame-parameter nil 'alpha-background 95) ; For current frame
   (add-to-list 'default-frame-alist '(alpha-background . 95)) ; For all new frames henceforth
 #+end_src
-
+*** Ansi sequences in comp-mode
+#+begin_src elisp
+  (require 'ansi-color)
+  (defun colorize-compilation-buffer ()
+    (toggle-read-only)
+    (ansi-color-apply-on-region compilation-filter-start (point))
+    (toggle-read-only))
+  (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+#+end_src
 ** Misc
 *** elcord
 #+begin_src elisp
