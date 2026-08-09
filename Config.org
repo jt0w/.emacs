@@ -1,12 +1,12 @@
 #+title: Emacs Config
 #+property: header-args :tangle yes :lexical t
 
-* Table of Contents :TOC:
+* Table of Contents                                                     :TOC:
 - [[#emacs-config][Emacs Config]]
   - [[#nix-shenanigans][Nix shenanigans]]
   - [[#general-keybindings][General (Keybindings)]]
   - [[#options][Options]]
-  - [[#evil][Evil]]
+  - [[#undo][Undo]]
   - [[#sitting-the-tree][Sitting the tree]]
   - [[#utility-plugins][Utility Plugins]]
   - [[#dired][Dired]]
@@ -32,9 +32,7 @@
 ** General (Keybindings)
 #+begin_src elisp
   (use-package general
-    :demand t
-    :config
-    (general-evil-setup))
+    :demand t)
 #+end_src
 
 ** Options
@@ -42,14 +40,14 @@
   (use-package emacs
     :init
     (setq use-package-always-ensure t
-          initial-buffer-choice t
-          make-backup-files nil
-          display-line-numbers-type 'relative
-          scroll-margin 15
-          show-trailing-whitespace t
-          custom-safe-themes t
-          use-short-answers t
-          )
+  		initial-buffer-choice t
+  		make-backup-files nil
+  		display-line-numbers-type 'relative
+  		scroll-margin 15
+  		show-trailing-whitespace t
+  		custom-safe-themes t
+  		use-short-answers t
+  		)
     :config
     (setq-default
      indents-tab-mode nil
@@ -71,88 +69,29 @@
 
     (setq-default mode-line-format '(" "
   								   (:eval mode-line-modified)
-  								   (:eval evil-mode-line-tag)
   								   " "
   								   (:eval (propertize (buffer-name) 'face 'font-lock-constant-face))
   								   (:eval (when-let ((proc mode-line-process)) (list  " " proc " ")))
   								   " %l:%c (%p)"
 
-                                     (:eval (when-let ((vc vc-mode))
-                                              (list " "
-                                                    (propertize (substring vc 5)
-                                                                'face 'font-lock-comment-face)
-                                                    " ")))
+  								   (:eval (when-let ((vc vc-mode))
+  										    (list " "
+  										          (propertize (substring vc 5)
+  										                      'face 'font-lock-comment-face)
+  										          " ")))
 
   								   mode-line-format-right-align
   								   "  "
   								   (:eval (propertize mode-name 'face 'font-lock-constant-face))
   								   "  "
   								   mode-line-misc-info
-    								   mode-line-end-spaces
+  								   mode-line-end-spaces
   								   ))
     :general-config
     ("<escape>" 'keyboard-escape-quit)
     )
 #+end_src
-** Evil
-*** Basic
-#+begin_src elisp
-  (use-package evil
-    :custom
-    (evil-want-integration t)
-    (evil-disable-insert-state-bindings t)
-    (evil-want-keybinding nil)
-    (evil-want-C-u-scroll t)
-    (evil-want-C-i-jump nil)
-    (evil-undo-system 'undo-fu)
-    (evil-split-window-below t)
-    (evil-vsplit-window-right t)
-    :config
-    (evil-mode 1)
-    (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
-    (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
-
-    ;; Use visual line motions even outside of visual-line-mode buffers
-    (evil-global-set-key 'motion "j" 'evil-next-visual-line)
-    (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
-
-    (evil-set-initial-state 'messages-buffer-mode 'normal)
-    (evil-set-initial-state 'dashboard-mode 'normal)
-
-    (evil-global-set-key 'normal (kbd "C-h") 'evil-window-left)
-    (evil-global-set-key 'normal (kbd "C-k") 'evil-window-up)
-    (evil-global-set-key 'normal (kbd "C-j") 'evil-window-down)
-    (evil-global-set-key 'normal (kbd "C-l") 'evil-window-right)
-
-    (with-eval-after-load 'org
-  	(evil-define-key 'normal org-mode-map (kbd "RET") 'org-open-at-point))
-    :general-config
-    (:states '(normal motion visual) :keymaps 'override :prefix "SPC"
-  		   "f" 'find-file
-  		   "e" (lambda ()
-  				 (interactive)
-  				 (dired default-directory))
-  		   "C" 'compile
-  		   "c" 'recompile
-  		   "b" 'consult-buffer
-  		   "gs" 'magit-status
-  		   "p" '(:keymap project-prefix-map :which-key "project")
-  		   "n t" 'org-roam-buffer-toggle
-  		   "n f" 'org-roam-node-find
-  		   "n g" 'org-roam-graph
-  		   "n i" 'org-roam-node-insert
-  		   "n c" 'org-roam-capture
-  		   )
-    )
-#+end_src
-*** Evil-Collection
-#+begin_src elisp
-  (use-package evil-collection
-    :after evil
-    :config
-    (evil-collection-init))
-#+end_src
-*** Undo
+** Undo
 #+begin_src elisp
   (use-package undo-fu
     :commands (undo-fu-only-undo)
@@ -309,15 +248,6 @@
     :hook ((org-mode . toc-org-mode)
   		 (markdown-mode . toc-org-mode)))
 #+end_src
-*** Evil Org
-#+begin_src elisp
-  (use-package evil-org
-    :after org
-    :hook (org-mode . evil-org-mode)
-    :config
-    (require 'evil-org-agenda)
-    (evil-org-agenda-set-keys))
-#+end_src
 ** Languages
 *** Nix
 Idk why nix does not have a treesitter parser yet.
@@ -340,19 +270,19 @@ Idk why nix does not have a treesitter parser yet.
     (doom-themes-enable-bold t)   ; if nil, bold is universally disabled
     (doom-themes-enable-italic t) ; if nil, italics is universally disabled
     :config
-    (load-theme 'doom-tomorrow-night t)
+    (load-theme 'doom-peacock t)
 
     (doom-themes-visual-bell-config)
     (doom-themes-org-config))
 #+end_src
 *** Transparency
 #+begin_src elisp
-  (set-frame-parameter nil 'alpha-background 95) ; For current frame
   (add-to-list 'default-frame-alist '(alpha-background . 95)) ; For all new frames henceforth
+  (set-frame-parameter nil 'alpha-background 95) ; For current frame
 #+end_src
 *** Ansi sequences in comp-mode
 #+begin_src elisp
-(use-package ansi-color
+  (use-package ansi-color
     :hook (compilation-filter . ansi-color-compilation-filter))
 #+end_src
 ** Misc
