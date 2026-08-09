@@ -89,8 +89,9 @@
   								   ))
     :general-config
     ("<escape>" 'keyboard-escape-quit)
-    )
-#+end_src
+    ("C-c C" 'compile)
+    ("C-c c" 'recompile))
+  #+end_src
 ** Undo
 #+begin_src elisp
   (use-package undo-fu
