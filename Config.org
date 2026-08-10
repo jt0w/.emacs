@@ -310,8 +310,11 @@
 *** Yasnippets
 #+begin_src elisp
   (use-package yasnippet
+    :init
+    (setq yas-snippet-dirs '("~/.emacs/snippets"))
     :config
-    (yas-global-mode 1))
+    (yas-global-mode 1)
+    )
 #+end_src
 ** Git
 *** Magit
