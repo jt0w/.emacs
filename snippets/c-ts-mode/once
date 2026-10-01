@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: once
+# key: once
+# --
+
+#ifndef $1_H
+#define $1_H
+
+$0
+
+#endif // $1_H

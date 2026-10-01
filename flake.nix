@@ -30,7 +30,9 @@
         epkgs.general
 
         pkgs.graphviz
+        pkgs.tinymist
       ];
+
     };
   in {
     packages.${system}.default = myEmacs;

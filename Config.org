@@ -1,5 +1,5 @@
 #+title: Emacs Config
-#+property: header-args :tangle yes :lexical t
+#+pproperty: header-args :tangle yes :lexical t
 
 * Table of Contents                                                 :TOC_3:
 - [[#emacs-config][Emacs Config]]
@@ -30,7 +30,9 @@
     - [[#toc-org][Toc-Org]]
   - [[#languages][Languages]]
     - [[#nix][Nix]]
+    - [[#typst][Typst]]
   - [[#direnv][Direnv]]
+  - [[#emms][emms]]
   - [[#ui][Ui]]
     - [[#theme][Theme]]
     - [[#transparency][Transparency]]
@@ -382,11 +384,49 @@ Idk why nix does not have a treesitter parser yet.
   (use-package nix-ts-mode
     :mode "\\.nix\\'")
 #+end_src
+*** Typst
+#+begin_src elisp
+  (use-package typst-ts-mode
+    :mode "\\.typ\\'")
+
+  (use-package typst-preview)
+#+end_src
 ** Direnv
 #+begin_src elisp
   (use-package direnv
     :config
     (direnv-mode))
+#+end_src
+** emms
+#+begin_src elisp
+  ;; Install from MELPA
+  (use-package emms
+    :ensure t
+    :defer 1
+    :config
+    ;; Tell EMMS to use MPD
+    (require 'emms-player-simple)   ;; generic player
+    (require 'emms-player-mpd)      ;; MPD support
+    (emms-player-set emms-player-mpd 'mpd t)
+    (emms-player-mpd-connect)
+    ;; Basic preferences
+    (setq emms-player-list '(emms-player-mpd)   ; only use MPD
+          emms-info-functions
+          '(emms-info-mpd)                     ; get tags from MPD
+          emms-source-file-default-directory
+          "~/HDD/music/")                          ; your music root
+
+    ;; Optional UI helpers
+    (require 'emms-mode-line)   ;; show track in modeline
+    (emms-mode-line 1)
+
+    ;; Key bindings (feel free to change)
+    (global-set-key (kbd "C-c e p") #'emms-pause)
+    (global-set-key (kbd "C-c e n") #'emms-next)
+    (global-set-key (kbd "C-c e b") #'emms-previous)
+    (global-set-key (kbd "C-c e s") #'emms-stop)
+    (global-set-key (kbd "C-c e l") #'emms-playlist-mode-go)
+    (global-set-key (kbd "C-c e a") #'emms-add-directory))   ;; add whole folder
 #+end_src
 ** Ui
 *** Theme
