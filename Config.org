@@ -113,6 +113,7 @@
     ("C-x C" 'compile)
     ("C-x c" 'recompile))
   #+end_src
+
 ** Undo
 #+begin_src elisp
   (use-package undo-fu
@@ -456,7 +457,8 @@ Idk why nix does not have a treesitter parser yet.
 ** Misc
 *** reader
 #+begin_src elisp
-  (use-package reader)
+  (use-package reader
+      :hook (reader-mode . (lambda () (display-line-numbers-mode -1))))
 #+end_src
 *** elcord
 #+begin_src elisp
@@ -472,3 +474,4 @@ Idk why nix does not have a treesitter parser yet.
   		  (lambda ()
   			(setq show-trailing-whitespace nil)))
 #+end_src
+
