@@ -1,5 +1,5 @@
 #+title: Emacs Config
-#+pproperty: header-args :tangle yes :lexical t
+#+property: header-args :tangle yes :lexical t
 
 * Table of Contents                                                 :TOC_3:
 - [[#emacs-config][Emacs Config]]
@@ -38,6 +38,7 @@
     - [[#transparency][Transparency]]
     - [[#ansi-sequences-in-comp-mode][Ansi sequences in comp-mode]]
   - [[#misc][Misc]]
+    - [[#reader][reader]]
     - [[#elcord][elcord]]
     - [[#erc][erc]]
 
@@ -453,6 +454,10 @@ Idk why nix does not have a treesitter parser yet.
     :hook (compilation-filter . ansi-color-compilation-filter))
 #+end_src
 ** Misc
+*** reader
+#+begin_src elisp
+  (use-package reader)
+#+end_src
 *** elcord
 #+begin_src elisp
   (use-package elcord
