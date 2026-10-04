@@ -392,7 +392,7 @@ Idk why nix does not have a treesitter parser yet.
     :mode "\\.typ\\'")
 
   (use-package typst-preview
-    :config
+    :custom
     (typst-preview-invert-colors "never"))
 #+end_src
 ** Direnv
