@@ -393,7 +393,7 @@ Idk why nix does not have a treesitter parser yet.
 
   (use-package typst-preview
     :config
-    (typst-preview-invert-colors "never")	; invert colors depending on system theme)
+    (typst-preview-invert-colors "never"))
 #+end_src
 ** Direnv
 #+begin_src elisp
