@@ -427,6 +427,7 @@ Idk why nix does not have a treesitter parser yet.
     			(t (file-name-sans-extension (file-name-nondirectory (emms-track-name track)))))))
 
     (setq emms-track-description-function #'my-emms-track-description)
+    (emms-player-mpd-connect)
     
     :bind
     ("s-m p" . emms)
