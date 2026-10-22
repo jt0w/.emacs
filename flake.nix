@@ -24,6 +24,7 @@
       alwaysEnsure = true;
       alwaysTangle = true;
 
+
       extraEmacsPackages = epkgs: [
         epkgs.treesit-grammars.with-all-grammars
         epkgs.use-package
@@ -51,17 +52,19 @@
         })
 
         pkgs.mupdf-headless
-        pkgs.aspell
-        pkgs.aspellDicts.en
-        pkgs.aspellDicts.de
       ];
     };
   in {
-    packages.${system}.default = myEmacs;
-
-    apps.${system}.default = {
-      type = "app";
-      program = "${myEmacs}/bin/emacs";
+    packages.${system}.default = pkgs.symlinkJoin {
+      name = "emacs";
+      paths = [ myEmacs ];
+      nativeBuildInputs = [ pkgs.makeWrapper ];
+      postBuild = ''
+        wrapProgram $out/bin/emacs \
+        --prefix PATH : ${pkgs.lib.makeBinPath [
+          (pkgs.aspellWithDicts (d: [ d.en d.de ]))
+        ]}
+      '';
     };
   };
 }
