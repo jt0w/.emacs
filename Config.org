@@ -29,6 +29,7 @@
     - [[#org-modern][Org-Modern]]
     - [[#toc-org][Toc-Org]]
   - [[#languages][Languages]]
+    - [[#spelling][Spelling]]
     - [[#nix][Nix]]
     - [[#typst][Typst]]
   - [[#direnv][Direnv]]
@@ -379,6 +380,10 @@
   		 (markdown-mode . toc-org-mode)))
 #+end_src
 ** Languages
+*** Spelling
+#+begin_src elisp
+(setq ispell-program-name "aspell")
+#+end_src
 *** Nix
 Idk why nix does not have a treesitter parser yet.
 #+begin_src elisp
