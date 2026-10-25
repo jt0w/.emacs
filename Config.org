@@ -32,6 +32,7 @@
     - [[#spelling][Spelling]]
     - [[#nix][Nix]]
     - [[#typst][Typst]]
+  - [[#olivetti][olivetti]]
   - [[#direnv][Direnv]]
   - [[#emms][emms]]
   - [[#ui][Ui]]
@@ -398,6 +399,10 @@ Idk why nix does not have a treesitter parser yet.
   (use-package typst-preview
     :custom
     (typst-preview-invert-colors "never"))
+#+end_src
+** olivetti
+#+begin_src elisp
+  (use-package olivetti)
 #+end_src
 ** Direnv
 #+begin_src elisp
