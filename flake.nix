@@ -32,7 +32,6 @@
 
         pkgs.graphviz
         pkgs.tinymist
-		pkgs.jdt-language-server
 
         (epkgs.melpaBuild {
           ename = "reader";
@@ -64,6 +63,7 @@
         wrapProgram $out/bin/emacs \
         --prefix PATH : ${pkgs.lib.makeBinPath [
           (pkgs.aspellWithDicts (d: [ d.en d.de ]))
+		  pkgs.jdt-language-server
         ]}
       '';
     };

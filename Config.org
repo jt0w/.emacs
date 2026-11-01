@@ -7,6 +7,7 @@
   - [[#general-keybindings][General (Keybindings)]]
   - [[#options][Options]]
   - [[#undo][Undo]]
+  - [[#lsp][LSP]]
   - [[#sitting-the-tree][Sitting the tree]]
   - [[#utility-plugins][Utility Plugins]]
   - [[#dired][Dired]]
@@ -123,6 +124,12 @@
 
   (use-package undo-fu-session
     :init (undo-fu-session-global-mode))
+#+end_src
+** LSP
+#+begin_src elisp
+  (with-eval-after-load 'eglot
+    (add-to-list 'eglot-server-programs
+                 '(java-ts-mode . ("jdtls"))))
 #+end_src
 ** Sitting the tree
 #+begin_src elisp
