@@ -37,7 +37,7 @@
   - [[#emms][emms]]
   - [[#ui][Ui]]
     - [[#theme][Theme]]
-    - [[#transparency][Transparency]]
+    - [[#transparency-disabled][Transparency (disabled)]]
     - [[#ansi-sequences-in-comp-mode][Ansi sequences in comp-mode]]
   - [[#misc][Misc]]
     - [[#reader][reader]]
@@ -463,10 +463,10 @@ Idk why nix does not have a treesitter parser yet.
     (doom-themes-visual-bell-config)
     (doom-themes-org-config))
 #+end_src
-*** Transparency
+*** Transparency (disabled)
 #+begin_src elisp
-  (add-to-list 'default-frame-alist '(alpha-background . 95)) ; For all new frames henceforth
-  (set-frame-parameter nil 'alpha-background 95) ; For current frame
+;  (add-to-list 'default-frame-alist '(alpha-background . 95)) ; For all new frames henceforth
+;  (set-frame-parameter nil 'alpha-background 95) ; For current frame
 #+end_src
 *** Ansi sequences in comp-mode
 #+begin_src elisp
