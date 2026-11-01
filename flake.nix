@@ -32,6 +32,7 @@
 
         pkgs.graphviz
         pkgs.tinymist
+		pkgs.jdt-language-server
 
         (epkgs.melpaBuild {
           ename = "reader";
