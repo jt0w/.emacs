@@ -195,8 +195,7 @@
 #+begin_src elisp
   (use-package swiper
     :bind (
-  		 ("C-s" . swiper-isearch)
-  		 ))
+  		 ("C-s" . swiper-isearch)))
 #+end_src
 *** Consult
 #+begin_src elisp
@@ -360,8 +359,7 @@
     (setq org-return-follows-link t)
     (setq org-startup-indented t)
     :config
-    (require 'org-tempo)
-    )
+    (require 'org-tempo))
 #+end_src
 *** Org-Roam
 #+begin_src elisp
