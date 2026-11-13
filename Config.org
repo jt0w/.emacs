@@ -39,6 +39,7 @@
   - [[#ui][Ui]]
     - [[#theme][Theme]]
     - [[#transparency-disabled][Transparency (disabled)]]
+    - [[#all-the-icons][all the icons]]
     - [[#ansi-sequences-in-comp-mode][Ansi sequences in comp-mode]]
   - [[#misc][Misc]]
     - [[#reader][reader]]
@@ -472,6 +473,11 @@ Idk why nix does not have a treesitter parser yet.
 #+begin_src elisp
 ;  (add-to-list 'default-frame-alist '(alpha-background . 95)) ; For all new frames henceforth
 ;  (set-frame-parameter nil 'alpha-background 95) ; For current frame
+#+end_src
+*** all the icons
+#+begin_src elisp
+(use-package all-the-icons
+  :if (display-graphic-p))
 #+end_src
 *** Ansi sequences in comp-mode
 #+begin_src elisp
