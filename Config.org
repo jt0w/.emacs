@@ -64,14 +64,14 @@
   (use-package emacs
     :init
     (setq use-package-always-ensure t
-    		initial-buffer-choice t
-    		make-backup-files nil
-    		display-line-numbers-type 'relative
-    		scroll-margin 15
-    		show-trailing-whitespace t
-    		custom-safe-themes t
-    		use-short-answers t
-    		)
+      	initial-buffer-choice t
+      	make-backup-files nil
+      	display-line-numbers-type 'relative
+      	scroll-margin 15
+      	show-trailing-whitespace t
+      	custom-safe-themes t
+      	use-short-answers t
+      	)
     :config
     (setq-default
      indents-tab-mode nil
@@ -91,29 +91,35 @@
     (set-frame-font "Iosevka Jt0w 14")
     (add-to-list 'default-frame-alist '(font . "Iosevka Jt0w 14"))
 
-    (set-fontset-font t '(#xe000 . #xf8ff) "Symbols Nerd Font Mono" nil 'prepend)
-    (set-fontset-font t '(#xf0000 . #xfffff) "Symbols Nerd Font Mono" nil 'prepend)
+    
+    (defun my/setup-nerd-fonts (&optional frame)
+  	(when (display-graphic-p frame)
+        (set-fontset-font t '(#xe000 . #xf8ff) "Symbols Nerd Font Mono" frame 'prepend)
+        (set-fontset-font t '(#xf0000 . #xfffff) "Symbols Nerd Font Mono" frame 'prepend)))
+
+    (my/setup-nerd-fonts)
+    (add-hook 'after-make-frame-functions #'my/setup-nerd-fonts)
 
     (setq-default mode-line-format '(" "
-    								   (:eval mode-line-modified)
-    								   " "
-    								   (:eval (propertize (buffer-name) 'face 'font-lock-constant-face))
-    								   (:eval (when-let ((proc mode-line-process)) (list  " " proc " ")))
-    								   " %l:%c (%p)"
+      							   (:eval mode-line-modified)
+      							   " "
+      							   (:eval (propertize (buffer-name) 'face 'font-lock-constant-face))
+      							   (:eval (when-let ((proc mode-line-process)) (list  " " proc " ")))
+      							   " %l:%c (%p)"
 
-    								   (:eval (when-let ((vc vc-mode))
-    										    (list " "
-    										          (propertize (substring vc 5)
-    										                      'face 'font-lock-comment-face)
-    										          " ")))
+      							   (:eval (when-let ((vc vc-mode))
+      										(list " "
+      										      (propertize (substring vc 5)
+      										                  'face 'font-lock-comment-face)
+      										      " ")))
 
-    								   mode-line-format-right-align
-    								   "  "
-    								   (:eval (propertize mode-name 'face 'font-lock-constant-face))
-    								   "  "
-    								   mode-line-misc-info
-    								   mode-line-end-spaces
-    								   ))
+      							   mode-line-format-right-align
+      							   "  "
+      							   (:eval (propertize mode-name 'face 'font-lock-constant-face))
+      							   "  "
+      							   mode-line-misc-info
+      							   mode-line-end-spaces
+      							   ))
     :general-config
     ("<escape>" 'keyboard-escape-quit)
     ("C-x C" 'compile)
