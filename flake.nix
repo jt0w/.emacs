@@ -24,11 +24,11 @@
       alwaysEnsure = true;
       alwaysTangle = true;
 
-
       extraEmacsPackages = epkgs: [
         epkgs.treesit-grammars.with-all-grammars
         epkgs.use-package
         epkgs.general
+        epkgs.elpaDevelPackages.org
 
         pkgs.graphviz
         pkgs.tinymist
@@ -57,13 +57,22 @@
   in {
     packages.${system}.default = pkgs.symlinkJoin {
       name = "emacs";
-      paths = [ myEmacs ];
-      nativeBuildInputs = [ pkgs.makeWrapper ];
+      paths = [myEmacs];
+      nativeBuildInputs = [pkgs.makeWrapper];
       postBuild = ''
         wrapProgram $out/bin/emacs \
         --prefix PATH : ${pkgs.lib.makeBinPath [
-          (pkgs.aspellWithDicts (d: [ d.en d.de ]))
-		  pkgs.jdt-language-server
+          (pkgs.aspellWithDicts (d: [d.en d.de]))
+          pkgs.jdt-language-server
+          (pkgs.texliveBasic.withPackages (
+            ps:
+              with ps; [
+                dvisvgm
+                preview
+                mylatexformat
+				wrapfig amsmath ulem hyperref capt-of
+              ]
+          ))
         ]}
       '';
     };

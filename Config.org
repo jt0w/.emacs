@@ -375,11 +375,15 @@
 ** Org
 #+begin_src elisp
   (use-package org
+    :hook (org-mode . org-latex-preview-mode)
     :init
     (setq org-return-follows-link t)
     (setq org-startup-indented t)
     :config
-    (require 'org-tempo))
+    (require 'org-tempo)
+    :custom
+    (org-latex-preview-mode-display-live t)
+    (org-pretty-entities t))
 #+end_src
 *** Org-Roam
 #+begin_src elisp
@@ -423,7 +427,8 @@
     :after org
     :hook ((org-mode . toc-org-mode)
   		 (markdown-mode . toc-org-mode)))
-#+end_src
+#+end_
+src
 ** Languages
 *** Spelling
 #+begin_src elisp
