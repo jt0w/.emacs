@@ -29,6 +29,7 @@
     - [[#org-roam][Org-Roam]]
     - [[#org-modern][Org-Modern]]
     - [[#toc-org][Toc-Org]]
+    - [[#latex-stuff][Latex stuff]]
   - [[#languages][Languages]]
     - [[#spelling][Spelling]]
     - [[#nix][Nix]]
@@ -377,6 +378,7 @@
   (use-package org
     :hook (org-mode . org-latex-preview-mode)
     :hook (org-mode . org-num-mode)
+    :hook (org-mode . org-cdlatex-mode)
     :init
     (setq org-return-follows-link t)
     (setq org-startup-indented t)
@@ -429,6 +431,11 @@
     :after org
     :hook ((org-mode . toc-org-mode)
   		 (markdown-mode . toc-org-mode)))
+#+end_src
+*** Latex stuff
+#+begin_src elisp
+  (use-package auctex)
+  (use-package cdlatex)
 #+end_src
 ** Languages
 *** Spelling
