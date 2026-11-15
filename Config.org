@@ -376,6 +376,7 @@
 #+begin_src elisp
   (use-package org
     :hook (org-mode . org-latex-preview-mode)
+    :hook (org-mode . org-num-mode)
     :init
     (setq org-return-follows-link t)
     (setq org-startup-indented t)
