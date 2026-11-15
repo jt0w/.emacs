@@ -39,7 +39,7 @@
   - [[#ui][Ui]]
     - [[#theme][Theme]]
     - [[#transparency-disabled][Transparency (disabled)]]
-    - [[#all-the-icons][all the icons]]
+    - [[#nerd-icons][nerd-icons]]
     - [[#ansi-sequences-in-comp-mode][Ansi sequences in comp-mode]]
   - [[#misc][Misc]]
     - [[#reader][reader]]
@@ -176,6 +176,10 @@
     dired-mouse-drag-files t
     :init
     (setq-default dired-dwim-target t))
+    
+(use-package nerd-icons-dired
+    :hook
+    (dired-mode . nerd-icons-dired-mode))
 #+end_src
 ** Vterm
 #+begin_src elisp
@@ -391,8 +395,8 @@
   		 )
     :config
     (org-roam-db-autosync-mode)
-    (org-roam-setup)
-    )
+    (org-roam-setup))
+  (use-package org-roam-ui)
 #+end_src
 *** Org-Modern
 #+begin_src elisp
@@ -498,10 +502,17 @@ Idk why nix does not have a treesitter parser yet.
 ;  (add-to-list 'default-frame-alist '(alpha-background . 95)) ; For all new frames henceforth
 ;  (set-frame-parameter nil 'alpha-background 95) ; For current frame
 #+end_src
-*** all the icons
+*** nerd-icons
 #+begin_src elisp
-(use-package all-the-icons
-  :if (display-graphic-p))
+(use-package nerd-icons)
+
+(use-package nerd-icons-completion
+  :config
+  (nerd-icons-completion-mode))
+
+(use-package nerd-icons-ibuffer
+  :ensure t
+  :hook (ibuffer-mode . nerd-icons-ibuffer-mode))
 #+end_src
 *** Ansi sequences in comp-mode
 #+begin_src elisp
