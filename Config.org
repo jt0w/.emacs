@@ -427,8 +427,7 @@
     :after org
     :hook ((org-mode . toc-org-mode)
   		 (markdown-mode . toc-org-mode)))
-#+end_
-src
+#+end_src
 ** Languages
 *** Spelling
 #+begin_src elisp
