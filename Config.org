@@ -45,7 +45,6 @@
     - [[#nerd-icons][nerd-icons]]
     - [[#ansi-sequences-in-comp-mode][Ansi sequences in comp-mode]]
   - [[#misc][Misc]]
-    - [[#reader][reader]]
     - [[#erc][erc]]
 
 * Emacs Config
@@ -425,8 +424,10 @@
   (defun my/open-paper-pdf ()
     "Opens the pdf of a paper corresponding to the current org-roam node"
     (interactive)
-    (find-file (orb-get-attached-file (orb-get-node-citekey nil t))))
+    (require 'org-roam-bibtex)
+    (start-process "zotero-open-pdf" nil "zotero-open-pdf" (orb-get-node-citekey nil t)))
   										; TODO: exporting
+
   (use-package org-roam-bibtex
     :after org-roam
     :custom
@@ -572,11 +573,6 @@ Idk why nix does not have a treesitter parser yet.
     :hook (compilation-filter . ansi-color-compilation-filter))
 #+end_src
 ** Misc
-*** reader
-#+begin_src elisp
-  (use-package reader
-      :hook (reader-mode . (lambda () (display-line-numbers-mode -1))))
-#+end_src
 *** erc
 #+begin_src elisp
   (add-hook 'erc-mode-hook
