@@ -27,6 +27,8 @@
   - [[#project][Project]]
   - [[#org][Org]]
     - [[#org-roam][Org-Roam]]
+    - [[#org-roam-ui][Org-Roam-Ui]]
+    - [[#org-roam-bibtex][Org-Roam-Bibtex]]
     - [[#org-modern][Org-Modern]]
     - [[#toc-org][Toc-Org]]
     - [[#latex-stuff][Latex stuff]]
@@ -394,7 +396,7 @@
   (use-package org-roam
     :custom
     (org-roam-directory "~/org-roam/")
-    (org-roam-completion-everywhere t)
+    ;;    (org-roam-completion-everywhere t)
     :bind (
   		 ("C-c n f" . org-roam-node-find)
   		 ("C-c n c" . org-roam-node-capture)
@@ -404,7 +406,9 @@
     :config
     (org-roam-db-autosync-mode)
     (org-roam-setup))
-
+#+end_src
+*** Org-Roam-Ui
+#+begin_src elisp
   (use-package org-roam-ui
     :after org-roam
     :hook (after-init . org-roam-ui-mode)
@@ -414,7 +418,32 @@
   		org-roam-ui-update-on-save t
   		org-roam-ui-open-on-start t)
     :bind
-    ("C-c n o" . org-roam-ui-open))
+    ("C-c n u" . org-roam-ui-open))
+#+end_src
+*** Org-Roam-Bibtex
+#+begin_src elisp
+  (defun my/open-paper-pdf ()
+    "Opens the pdf of a paper corresponding to the current org-roam node"
+    (interactive)
+    (find-file (orb-get-attached-file (orb-get-node-citekey nil t))))
+  										; TODO: exporting
+  (use-package org-roam-bibtex
+    :after org-roam
+    :custom
+    (bibtex-completion-bibliography '("~/HDD/zotero/bib.bib"))
+    (org-cite-global-bibliography   '("~/HDD/zotero/bib.bib"))
+    (orb-roam-ref-format 'org-cite)
+    (bibtex-completion-pdf-field "file")
+    
+    (org-cite-insert-processor   'basic)
+    (org-cite-follow-processor   'basic)
+    (org-cite-activate-processor 'basic)
+    :bind
+    ("C-c n b" . orb-insert-link)
+    ("C-c n o" . my/open-paper-pdf)
+    :config
+    (org-roam-bibtex-mode)
+    (require 'oc-basic))
 #+end_src
 *** Org-Modern
 #+begin_src elisp
