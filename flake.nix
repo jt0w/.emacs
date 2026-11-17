@@ -47,7 +47,8 @@
           (pkgs.callPackage ./lib/zotero-open-pdf.nix {})
           (pkgs.texliveBasic.withPackages (
             ps:
-              with ps; [
+            with ps; [
+			  # needed for previews and such
                 dvisvgm
                 preview
                 mylatexformat
@@ -56,6 +57,10 @@
                 ulem
                 hyperref
                 capt-of
+			  
+			  # custom
+			  pgfplots
+			  
               ]
           ))
         ]}
