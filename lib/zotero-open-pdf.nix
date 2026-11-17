@@ -33,7 +33,7 @@ writeShellApplication {
       }')" | jq -r '.result[0].open // empty')
 
     if [[ -n "$url" ]]; then
-      xdg-open "$url"
+      exec ${xdg-utils}/bin/xdg-open "$url"
     else
       echo "No PDF attachment found for: $citekey" >&2
       exit 1

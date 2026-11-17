@@ -401,7 +401,8 @@
   		 ("C-c n c" . org-roam-node-capture)
   		 :map org-mode-map
   		 ("C-c n l" . org-roam-buffer-toggle)
-  		 ("C-c n i" . org-roam-node-insert))
+  		 ("C-c n i" . org-roam-node-insert)
+  		 ("C-c n a" . org-roam-alias-add))
     :config
     (org-roam-db-autosync-mode)
     (org-roam-setup))
