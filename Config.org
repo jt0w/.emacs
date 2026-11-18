@@ -30,6 +30,7 @@
     - [[#org-roam][Org-Roam]]
     - [[#org-roam-ui][Org-Roam-Ui]]
     - [[#org-roam-bibtex][Org-Roam-Bibtex]]
+    - [[#org-noter][Org-Noter]]
     - [[#org-modern][Org-Modern]]
     - [[#toc-org][Toc-Org]]
     - [[#latex-stuff][Latex stuff]]
@@ -127,7 +128,7 @@
     ("<escape>" 'keyboard-escape-quit)
     ("C-x C" 'compile)
     ("C-x c" 'recompile))
-  #+end_src
+#+end_src
 
 ** Undo
 #+begin_src elisp
@@ -384,6 +385,7 @@
 ** Org
 #+begin_src elisp
   (use-package org
+    :ensure nil
     :hook (org-mode . org-latex-preview-mode)
     :hook (org-mode . org-num-mode)
     :hook (org-mode . org-cdlatex-mode)
@@ -433,17 +435,16 @@
     "Opens the pdf of a paper corresponding to the current org-roam node"
     (interactive)
     (require 'org-roam-bibtex)
-    (start-process "zotero-open-pdf" nil "zotero-open-pdf" (orb-get-node-citekey nil t)))
-  										; TODO: exporting
+    (find-file (orb-get-attached-file (orb-get-node-citekey nil t))))
 
   (use-package org-roam-bibtex
     :after org-roam
+    :hook (org-mode . org-roam-bibtex-mode)
     :custom
     (bibtex-completion-bibliography '("~/HDD/zotero/bib.bib"))
     (org-cite-global-bibliography   '("~/HDD/zotero/bib.bib"))
     (orb-roam-ref-format 'org-cite)
     (bibtex-completion-pdf-field "file")
-    
     (org-cite-insert-processor   'basic)
     (org-cite-follow-processor   'basic)
     (org-cite-activate-processor 'basic)
@@ -451,8 +452,26 @@
     ("C-c n b" . orb-insert-link)
     ("C-c n o" . my/open-paper-pdf)
     :config
-    (org-roam-bibtex-mode)
     (require 'oc-basic))
+  (org-roam-bibtex-mode)
+#+end_src
+*** Org-Noter
+#+begin_src elisp
+  (defun my/org-noter-from-roam ()
+    (interactive)
+    (org-with-point-at 1
+  	(org-set-property "NOTER_DOCUMENT" (orb-get-attached-file (orb-get-node-citekey nil t))))
+    (org-noter))
+
+  (use-package org-noter
+    :after (org org-roam)
+    :bind
+    ("C-c n n" . my/org-noter-from-roam)
+    :custom
+    (org-noter-always-create-frame nil)
+    (org-noter-notes-window-location 'horizontal-split)
+    :config
+    (org-noter-enable-org-roam-integration))
 #+end_src
 *** Org-Modern
 #+begin_src elisp
@@ -509,43 +528,44 @@ Idk why nix does not have a treesitter parser yet.
     (direnv-mode))
 #+end_src
 ** emms
+Temporarily disabled because nix cannot reach the git repo for some reason
 #+begin_src elisp
-  (use-package emms
-    :ensure t
-    :config
-    (require 'emms-setup)
-    (require 'emms-player-mpd)
-    (emms-all)
-    (setq emms-player-mpd-music-directory "/home/lukas/HDD/music")
-    (add-to-list 'emms-player-list 'emms-player-mpd)
-    (setq emms-seek-seconds 5)
-    (setq emms-player-list '(emms-player-mpd))
-    (setq emms-info-functions '(emms-info-mpd))
-    (setq emms-player-mpd-server-name "localhost")
-    (setq emms-player-mpd-server-port "6600") ; one six away from the devil
-    (setq emms-source-file-default-directory "~/HDD/music/")
-    (require 'emms-info-mpd)
-    (add-to-list 'emms-info-functions 'emms-info-mpd)
-    (defun my-emms-track-description (track)
-    	"Short description: Artist - Title, or file name without directory."
-    	(let ((artist (emms-track-get track 'info-artist))
-            (title  (emms-track-get track 'info-title)))
-        (cond ((and artist title) (format "%s - %s" artist title))
-    			(title title)
-    			(t (file-name-sans-extension (file-name-nondirectory (emms-track-name track)))))))
+  ;; (use-package emms
+  ;;   :ensure t
+  ;;   :config
+  ;;   (require 'emms-setup)
+  ;;   (require 'emms-player-mpd)
+  ;;   (emms-all)
+  ;;   (setq emms-player-mpd-music-directory "/home/lukas/HDD/music")
+  ;;   (add-to-list 'emms-player-list 'emms-player-mpd)
+  ;;   (setq emms-seek-seconds 5)
+  ;;   (setq emms-player-list '(emms-player-mpd))
+  ;;   (setq emms-info-functions '(emms-info-mpd))
+  ;;   (setq emms-player-mpd-server-name "localhost")
+  ;;   (setq emms-player-mpd-server-port "6600") ; one six away from the devil
+  ;;   (setq emms-source-file-default-directory "~/HDD/music/")
+  ;;   (require 'emms-info-mpd)
+  ;;   (add-to-list 'emms-info-functions 'emms-info-mpd)
+  ;;   (defun my-emms-track-description (track)
+  ;;   	"Short description: Artist - Title, or file name without directory."
+  ;;   	(let ((artist (emms-track-get track 'info-artist))
+  ;;           (title  (emms-track-get track 'info-title)))
+  ;;       (cond ((and artist title) (format "%s - %s" artist title))
+  ;;   			(title title)
+  ;;   			(t (file-name-sans-extension (file-name-nondirectory (emms-track-name track)))))))
 
-    (setq emms-track-description-function #'my-emms-track-description)
-    (emms-player-mpd-connect)
+  ;;   (setq emms-track-description-function #'my-emms-track-description)
+  ;;   (emms-player-mpd-connect)
     
-    :bind
-    ("s-m p" . emms)
-    ("s-m b" . emms-smart-browse)
-    ("s-m r" . emms-player-mpd-update-all-reset-cache)
-    ("<XF86AudioPrev>" . emms-previous)
-    ("<XF86AudioNext>" . emms-next)
-    ("<XF86AudioPlay>" . emms-pause)
-    ("<XF86AudioStop>" . emms-stop)
-    )
+  ;;   :bind
+  ;;   ("s-m p" . emms)
+  ;;   ("s-m b" . emms-smart-browse)
+  ;;   ("s-m r" . emms-player-mpd-update-all-reset-cache)
+  ;;   ("<XF86AudioPrev>" . emms-previous)
+  ;;   ("<XF86AudioNext>" . emms-next)
+  ;;   ("<XF86AudioPlay>" . emms-pause)
+  ;;   ("<XF86AudioStop>" . emms-stop)
+  ;;   )
 #+end_src
 ** Ui
 *** Theme

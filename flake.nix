@@ -24,6 +24,17 @@
       alwaysEnsure = true;
       alwaysTangle = true;
 
+      override = epkgs: {
+        org = epkgs.elpaDevelPackages.org;
+        org-noter = epkgs.org-noter.overrideAttrs (old: {
+          postPatch = (old.postPatch or "") + ''
+            for f in $(find . -name org-noter-org-roam.el); do
+              sed -i "0,/^(require/s//(require 'org-macs)\n(require/" "$f"
+            done
+          '';
+        });
+      };
+
       extraEmacsPackages = epkgs: [
         epkgs.treesit-grammars.with-all-grammars
         epkgs.use-package
