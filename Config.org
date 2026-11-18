@@ -17,6 +17,7 @@
     - [[#marginalia][Marginalia]]
     - [[#vertico][Vertico]]
     - [[#swiper][Swiper]]
+    - [[#avy][Avy]]
     - [[#consult][Consult]]
     - [[#corfu][Corfu]]
     - [[#orderless][Orderless]]
@@ -45,6 +46,7 @@
     - [[#nerd-icons][nerd-icons]]
     - [[#ansi-sequences-in-comp-mode][Ansi sequences in comp-mode]]
   - [[#misc][Misc]]
+    - [[#pdf-tools][pdf-tools]]
     - [[#erc][erc]]
 
 * Emacs Config
@@ -68,7 +70,6 @@
     (setq use-package-always-ensure t
       	initial-buffer-choice t
       	make-backup-files nil
-      	display-line-numbers-type 'relative
       	scroll-margin 15
       	show-trailing-whitespace t
       	custom-safe-themes t
@@ -84,7 +85,7 @@
     (scroll-bar-mode 0)
     (column-number-mode 1)
     (show-paren-mode 1)
-    (global-display-line-numbers-mode 1)
+    (global-visual-line-mode)
     (which-key-mode 1)
     (global-auto-revert-mode)
     (savehist-mode 1)
@@ -217,6 +218,12 @@
   (use-package swiper
     :bind (
   		 ("C-s" . swiper-isearch)))
+#+end_src
+*** Avy
+#+begin_src elisp
+  (use-package avy
+    :bind
+    ("C-ö" . avy-goto-char-timer))
 #+end_src
 *** Consult
 #+begin_src elisp
@@ -490,7 +497,10 @@ Idk why nix does not have a treesitter parser yet.
 #+end_src
 ** olivetti
 #+begin_src elisp
-  (use-package olivetti)
+  (use-package olivetti
+    :hook (olivetti-mode . (lambda () (display-line-numbers-mode -1)))
+    :custom
+    (olivetti-body-width 0.75))
 #+end_src
 ** Direnv
 #+begin_src elisp
@@ -574,6 +584,18 @@ Idk why nix does not have a treesitter parser yet.
     :hook (compilation-filter . ansi-color-compilation-filter))
 #+end_src
 ** Misc
+*** pdf-tools
+#+begin_src elisp
+  (use-package pdf-tools
+    :hook (pdf-view-mode .  (lambda ()
+  							(display-line-numbers-mode -1)
+  							(pdf-view-roll-minor-mode t)
+  							(pdf-view-themed-minor-mode t)
+  							))
+    :config
+
+    (pdf-tools-install))
+#+end_src
 *** erc
 #+begin_src elisp
   (add-hook 'erc-mode-hook

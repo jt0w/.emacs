@@ -1,10 +1,10 @@
 # WARNING: vibe coded
-{ writeShellApplication
-, curl
-, jq
-, xdg-utils
+{
+  writeShellApplication,
+  curl,
+  jq,
+  xdg-utils,
 }:
-
 writeShellApplication {
   name = "zotero-open-pdf";
 
