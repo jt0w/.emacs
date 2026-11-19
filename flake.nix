@@ -55,7 +55,6 @@
         --prefix PATH : ${pkgs.lib.makeBinPath [
           (pkgs.aspellWithDicts (d: [d.en d.de]))
           pkgs.jdt-language-server
-          (pkgs.callPackage ./lib/zotero-open-pdf.nix {})
           (pkgs.texliveBasic.withPackages (
             ps:
               with ps; [
