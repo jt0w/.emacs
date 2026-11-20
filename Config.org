@@ -444,12 +444,14 @@
     (bibtex-completion-bibliography '("~/HDD/zotero/bib.bib"))
     (org-cite-global-bibliography   '("~/HDD/zotero/bib.bib"))
     (orb-roam-ref-format 'org-cite)
+    (orb-insert-link-description 'citation-org-cite)
     (bibtex-completion-pdf-field "file")
     (org-cite-insert-processor   'basic)
     (org-cite-follow-processor   'basic)
     (org-cite-activate-processor 'basic)
     :bind
     ("C-c n b" . orb-insert-link)
+    ("C-c n e" . orb-edit-citation-note)
     ("C-c n o" . my/open-paper-pdf)
     :config
     (require 'oc-basic))
