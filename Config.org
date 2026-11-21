@@ -43,7 +43,7 @@
   - [[#emms][emms]]
   - [[#ui][Ui]]
     - [[#theme][Theme]]
-    - [[#transparency-disabled][Transparency (disabled)]]
+    - [[#transparency][Transparency]]
     - [[#nerd-icons][nerd-icons]]
     - [[#ansi-sequences-in-comp-mode][Ansi sequences in comp-mode]]
   - [[#misc][Misc]]
@@ -196,7 +196,12 @@
 #+end_src
 ** Multiple Cursors
 #+begin_src elisp
-  (use-package multiple-cursors)
+  (use-package multiple-cursors
+    :bind
+    ("C-S-c C-S-c" . mc/edit-lines)
+    ("C-<" . mc/mark-next-like-this)
+    ("C-M-<" . mc/mark-previous-like-this)
+    ("C-c C-<" . mc/mark-all-like-this))
 #+end_src
 ** Completion
 *** Marginalia
@@ -583,10 +588,10 @@ Temporarily disabled because nix cannot reach the git repo for some reason
     (doom-themes-visual-bell-config)
     (doom-themes-org-config))
 #+end_src
-*** Transparency (disabled)
+*** Transparency
 #+begin_src elisp
-;  (add-to-list 'default-frame-alist '(alpha-background . 95)) ; For all new frames henceforth
-;  (set-frame-parameter nil 'alpha-background 95) ; For current frame
+   (add-to-list 'default-frame-alist '(alpha-background . 95)) ; For all new frames henceforth
+   (set-frame-parameter nil 'alpha-background 95) ; For current frame
 #+end_src
 *** nerd-icons
 #+begin_src elisp
