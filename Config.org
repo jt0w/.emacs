@@ -76,6 +76,9 @@
       	custom-safe-themes t
       	use-short-answers t
       	)
+    :custom
+    (calendar-date-style 'european)
+    (system-time-locale "de_DE.UTF-8")
     :config
     (setq-default
      indents-tab-mode nil
@@ -404,25 +407,52 @@
   		org-agenda-files (directory-files-recursively org-directory "\\.org\\'"))
     :bind
     ("C-c a" . org-agenda)
+    ("C-c c" . org-capture)
     :custom
+    (org-display-custom-times t)
+    (org-timestamp-custom-formats '("%d.%m.%Y" . "%d.%m.%Y %H:%M"))
     (org-M-RET-may-split-line nil)
     (org-insert-heading-respect-content t)
     (org-log-done 'time)
     (org-log-into-drawer t)
     (org-startup-with-latex-preview t)
     (org-latex-preview-mode-display-live t)
-    (org-pretty-entities t))
+    (org-pretty-entities t)
+    (org-todo-keywords
+     '((sequence "TODO(t)" "PAUSED(p!)" "|" "DONE(d)" "CANCELED(p!@)")))
+    (org-capture-templates
+     '(("t" "TODO" entry (file "~/org/tasks.org")
+  	 "* TODO %?"))))
+
 #+end_src
 *** Org-Roam
-#+begin_src elisp 
+#+begin_src elisp
   (use-package org-roam
     :custom
-    (org-roam-directory "~/org/org-roam/")
+    (org-roam-directory "~/org/roam/")
     (org-roam-dailies-directory "journal/")
+    (org-roam-dailies-capture-templates
+     '(("t" "TODO" entry "** TODO %?\nSCHEDULED: %t"
+  	  :target (file+head+olp "%<%Y-%m-%d>.org"
+  							 "%[~/org/roam/templates/Daily.org]"
+  							 ("TODOs")))
+     ("g" "Gedanken" entry "** %? :gedanken:"
+  	  :target (file+head+olp "%<%Y-%m-%d>.org"
+  							 "%[~/org/roam/templates/Daily.org]"
+  							 ("Gedanken")))
+     ("G" "Gefühle" entry "** %?"
+  	  :target (file+head+olp "%<%Y-%m-%d>.org"
+  							 "%[~/org/roam/templates/Daily.org]"
+  							 ("Gefühle")))
+     ("e" "Eintrag" entry "** %?"
+  	  :target (file+head+olp "%<%Y-%m-%d>.org"
+  							 "%[~/org/roam/templates/Daily.org]"
+  							 ("Geschehen"))))
+     )
+
     ;;    (org-roam-completion-everywhere t)
     :bind (
   		 ("C-c n f" . org-roam-node-find)
-  		 ("C-c n c" . org-roam-node-capture)
   		 :map org-mode-map
   		 ("C-c n l" . org-roam-buffer-toggle)
   		 ("C-c n i" . org-roam-node-insert)
@@ -432,7 +462,7 @@
     :config
     (org-roam-db-autosync-mode)
     (org-roam-setup))
-#+end_src
+  #+end_src
 *** Org-Roam-Ui
 #+begin_src elisp
   (use-package org-roam-ui
