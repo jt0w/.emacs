@@ -392,23 +392,33 @@
   (use-package org
     :ensure nil
     :hook (org-mode . org-latex-preview-mode)
-    :hook (org-mode . org-num-mode)
     :hook (org-mode . org-cdlatex-mode)
+    :hook (org-agenda-mode . olivetti-mode)
     :init
     (setq org-return-follows-link t)
     (setq org-startup-indented t)
     :config
     (require 'org-tempo)
+    :init
+    (setq org-directory "~/org"
+  		org-agenda-files (directory-files-recursively org-directory "\\.org\\'"))
+    :bind
+    ("C-c a" . org-agenda)
     :custom
+    (org-M-RET-may-split-line nil)
+    (org-insert-heading-respect-content t)
+    (org-log-done 'time)
+    (org-log-into-drawer t)
     (org-startup-with-latex-preview t)
     (org-latex-preview-mode-display-live t)
     (org-pretty-entities t))
 #+end_src
 *** Org-Roam
-#+begin_src elisp
+#+begin_src elisp 
   (use-package org-roam
     :custom
-    (org-roam-directory "~/org-roam/")
+    (org-roam-directory "~/org/org-roam/")
+    (org-roam-dailies-directory "journal/")
     ;;    (org-roam-completion-everywhere t)
     :bind (
   		 ("C-c n f" . org-roam-node-find)
@@ -417,6 +427,8 @@
   		 ("C-c n l" . org-roam-buffer-toggle)
   		 ("C-c n i" . org-roam-node-insert)
   		 ("C-c n a" . org-roam-alias-add))
+    :bind-keymap
+    ("C-c n d" . org-roam-dailies-map)
     :config
     (org-roam-db-autosync-mode)
     (org-roam-setup))
@@ -485,8 +497,9 @@
 #+begin_src elisp
   (use-package org-modern
     :after org
-    :init
-    (setq org-modern-star 'replace)
+    :custom
+    (org-modern-star 'fold)
+    
     :config
     (global-org-modern-mode))
 #+end_src
