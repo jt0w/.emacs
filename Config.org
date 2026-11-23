@@ -13,13 +13,16 @@
   - [[#dired][Dired]]
   - [[#vterm][Vterm]]
   - [[#multiple-cursors][Multiple Cursors]]
+  - [[#perspective][Perspective]]
   - [[#completion][Completion]]
     - [[#marginalia][Marginalia]]
     - [[#vertico][Vertico]]
     - [[#swiper][Swiper]]
     - [[#avy][Avy]]
     - [[#consult][Consult]]
-    - [[#corfu][Corfu]]
+    - [[#completion-1][Completion]]
+    - [[#minibuffer][Minibuffer]]
+    - [[#cape][Cape]]
     - [[#orderless][Orderless]]
     - [[#yasnippets][Yasnippets]]
   - [[#git][Git]]
@@ -206,6 +209,17 @@
     ("C-M-<" . mc/mark-previous-like-this)
     ("C-c C-<" . mc/mark-all-like-this))
 #+end_src
+** Perspective
+#+begin_src elisp
+  (use-package perspective
+    :bind
+    ("C-x C-b" . persp-list-buffers)
+    ("C-x k" . persp-kill-buffer*)
+    :custom
+    (persp-mode-prefix-key (kbd "C-c p"))
+    :init
+    (persp-mode))
+#+end_src
 ** Completion
 *** Marginalia
 #+begin_src elisp
@@ -336,18 +350,71 @@
     ;; (keymap-set consult-narrow-map (concat consult-narrow-key " ?") #'consult-narrow-help)
     )
 #+end_src
-*** Corfu
+*** Completion
 #+begin_src elisp
-  (use-package corfu
+  (use-package completion-preview
+    :ensure nil
+    :demand t
+    :bind
+    ( :map completion-preview-active-mode-map
+      ("M-i" . completion-preview-insert-word)
+      ("M-n" . completion-preview-next-candidate)
+      ("M-p" . completion-preview-prev-candidate)
+      ("M-<return>" . completion-preview-insert)
+      ;; With TAB we effectively defer to the *Completions* buffer to
+      ;; show more completion candidates at once.
+      ("<tab>" . completion-preview-complete))
     :config
-    (global-corfu-mode)
-    (corfu-popupinfo-mode)
-    :custom
-    (corfu-auto t)
-    (corfu-count 8)
-    (corfu-auto-prefix 2)
-    (corfu-auto-delay 0)
-    )
+    (setq completion-preview-minimum-symbol-length 2)
+    (with-eval-after-load 'org
+      (add-to-list 'completion-preview-commands #'org-self-insert-command))
+    (global-completion-preview-mode 1))
+#+END_src
+*** Minibuffer
+#+begin_src elisp
+  (use-package minibuffer
+    :ensure nil
+    :demand t
+    :bind
+    ( :map completion-in-region-mode-map
+      ("M-i" . minibuffer-choose-completion)
+      ("M-n" . minibuffer-next-completion)
+      ("M-p" . minibuffer-previous-completion))
+    :config
+    (setq completions-format 'one-column)
+    (setq completions-max-height 12)
+    (setq completion-auto-help t)
+    (setq completion-auto-select nil)
+    (setq minibuffer-visible-completions t)
+    (setq completion-eager-update t))
+#+end_src
+*** Cape
+#+begin_src elisp
+
+  (use-package cape
+    :config
+    ;; This is for the global value.
+
+    (defun prot/cape-super-set-local (capfs &optional individual-capfs)
+      "Set `completion-at-point-functions' to current value plus CAPFS.
+  Treat CAPFS and the default value as a super CAPF.  Then append the
+  INDIVIDUAL-CAPFS to the list."
+      (let* ((all-for-super (append completion-at-point-functions capfs))
+             (all-minus-global (delq t all-for-super))
+             (cape-super (apply #'cape-capf-super all-minus-global)))
+        (setq-local completion-at-point-functions (append (list cape-super) individual-capfs (list t)))))
+
+    (defun prot/cape-prog-setup ()
+      "Set up Cape for programming."
+      (prot/cape-super-set-local '(cape-dabbrev) '(cape-file)))
+
+    (add-hook 'prog-mode-hook #'prot/cape-prog-setup)
+
+    (defun prot/cape-text-setup ()
+      "Set up Cape for prose."
+  	(prot/cape-super-set-local '(cape-emoji) '(cape-file)))
+
+    (add-hook 'text-mode-hook #'prot/cape-text-setup))
 #+end_src
 *** Orderless
 #+begin_src elisp
