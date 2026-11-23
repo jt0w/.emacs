@@ -214,11 +214,12 @@
   (use-package perspective
     :bind
     ("C-x C-b" . persp-list-buffers)
+    ("C-x b" . persp-switch-to-buffer*)
     ("C-x k" . persp-kill-buffer*)
-    :custom
-    (persp-mode-prefix-key (kbd "C-c p"))
-    :init
-    (persp-mode))
+     :custom
+     (persp-mode-prefix-key (kbd "C-c p"))
+     :init
+     (persp-mode))
 #+end_src
 ** Completion
 *** Marginalia
@@ -475,6 +476,7 @@
     :bind
     ("C-c a" . org-agenda)
     ("C-c c" . org-capture)
+    ("C-c f" . org-capture-goto-target)
     :custom
     (org-display-custom-times t)
     (org-timestamp-custom-formats '("%d.%m.%Y" . "%d.%m.%Y %H:%M"))
@@ -488,9 +490,14 @@
     (org-todo-keywords
      '((sequence "TODO(t)" "PAUSED(p!)" "|" "DONE(d)" "CANCELED(p!@)")))
     (org-capture-templates
-     '(("t" "TODO" entry (file "~/org/tasks.org")
-  	 "* TODO %?"))))
-
+     '(
+  	 ("t" "TODO" entry (file "~/org/tasks.org")
+  	  "* TODO %?")
+  	 ("n" "Note" entry (file "~/org/notes.org")
+  	  "* %^{Title}\n%?")
+  	 ("e" "Event" entry (file "~/org/events.org")
+  	  (file "~/org/templates/Event.org"))
+  	 )))
 #+end_src
 *** Org-Roam
 #+begin_src elisp
