@@ -474,7 +474,8 @@
     :config
     (require 'org-faces)
     (custom-set-faces
-     '(org-document-title ((t (:weight bold :height 1.5)))))
+     '(org-document-title ((t (:weight bold :height 2.0)))))
+    
     (add-to-list 'display-buffer-alist
         		   '("^\\*Org-Babel Error Output\\*$" . (display-buffer-no-window)))
     :bind
