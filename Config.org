@@ -472,7 +472,7 @@
     :init
     (setq org-directory "~/org"
   		org-agenda-files (directory-files-recursively org-directory "\\.org\\'"))
-    :config
+    :init
     (set-face-attribute 'org-document-title nil
   					  :weight 'bold :height 1.5)
     (add-to-list 'display-buffer-alist
