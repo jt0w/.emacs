@@ -465,6 +465,7 @@
     :hook (org-mode . org-latex-preview-mode)
     :hook (org-mode . org-cdlatex-mode)
     :hook (org-agenda-mode . olivetti-mode)
+    :hook (org-mode . org-link-preview-refresh)
     :hook (org-babel-after-execute . org-link-preview-refresh)
     :init
     (setq org-return-follows-link t)
@@ -547,7 +548,6 @@
 #+begin_src elisp
   (use-package org-roam-ui
     :after org-roam
-    :hook (after-init . org-roam-ui-mode)
     :config
     (setq org-roam-ui-sync-theme t
   		org-roam-ui-follow t
