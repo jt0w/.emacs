@@ -713,7 +713,7 @@ Temporarily disabled because nix cannot reach the git repo for some reason
     (doom-themes-enable-bold t)   ; if nil, bold is universally disabled
     (doom-themes-enable-italic t) ; if nil, italics is universally disabled
     :config
-    (load-theme 'doom-peacock t)
+    (load-theme 'doom-moonlight t)
 
     (doom-themes-visual-bell-config)
     (doom-themes-org-config))
