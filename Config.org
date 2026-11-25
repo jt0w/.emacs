@@ -514,33 +514,32 @@
     (org-roam-dailies-directory "journal/")
     (org-roam-dailies-capture-templates
      '(("t" "TODO" entry "** TODO %?\nSCHEDULED: %t"
-  	  :target (file+head+olp "%<%Y-%m-%d>.org"
-  							 "%[~/org/roam/templates/Daily.org]"
-  							 ("TODOs")))
-  	 ("g" "Gedanken" entry "** %? :gedanken:"
-  	  :target (file+head+olp "%<%Y-%m-%d>.org"
-  							 "%[~/org/roam/templates/Daily.org]"
-  							 ("Gedanken")))
-  	 ("G" "Gefühle" entry "** %?"
-  	  :target (file+head+olp "%<%Y-%m-%d>.org"
-  							 "%[~/org/roam/templates/Daily.org]"
-  							 ("Gefühle")))
-  	 ("e" "Eintrag" entry "** %?"
-  	  :target (file+head+olp "%<%Y-%m-%d>.org"
-  							 "%[~/org/roam/templates/Daily.org]"
-  							 ("Geschehen"))))
+    	  :target (file+head+olp "%<%Y-%m-%d>.org"
+    							 "%[~/org/roam/templates/Daily.org]"
+    							 ("TODOs")))
+    	 ("g" "Gedanken" entry "** %? :gedanken:"
+    	  :target (file+head+olp "%<%Y-%m-%d>.org"
+    							 "%[~/org/roam/templates/Daily.org]"
+    							 ("Gedanken")))
+    	 ("G" "Gefühle" entry "** %?"
+    	  :target (file+head+olp "%<%Y-%m-%d>.org"
+    							 "%[~/org/roam/templates/Daily.org]"
+    							 ("Gefühle")))
+    	 ("e" "Eintrag" entry "** %?"
+    	  :target (file+head+olp "%<%Y-%m-%d>.org"
+    							 "%[~/org/roam/templates/Daily.org]"
+    							 ("Geschehen"))))
      )
 
     ;;    (org-roam-completion-everywhere t)
-    :bind (
-  		 ("C-c n f" . org-roam-node-find)
-  		 :map org-mode-map
-  		 ("C-c n l" . org-roam-buffer-toggle)
-  		 ("C-c n i" . org-roam-node-insert)
-  		 ("C-c n a" . org-roam-alias-add))
-    :bind-keymap
-    ("C-c n d" . org-roam-dailies-map)
+    :bind (("C-c n f" . org-roam-node-find)
+    		 :map org-mode-map
+    		 ("C-c n l" . org-roam-buffer-toggle)
+    		 ("C-c n i" . org-roam-node-insert)
+    		 ("C-c n a" . org-roam-alias-add))
     :config
+    (require 'org-roam-dailies)
+    (keymap-global-set "C-c n d" org-roam-dailies-map)  ; Emacs 29+
     (org-roam-db-autosync-mode)
     (org-roam-setup))
 #+end_src
