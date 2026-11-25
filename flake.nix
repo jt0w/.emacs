@@ -55,6 +55,7 @@
         --prefix PATH : ${pkgs.lib.makeBinPath [
           (pkgs.aspellWithDicts (d: [d.en d.de]))
           pkgs.jdt-language-server
+		  pkgs.d2
           (pkgs.texliveBasic.withPackages (
             ps:
               with ps; [
