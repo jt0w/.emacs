@@ -187,8 +187,8 @@
     dired-mouse-drag-files t
     :init
     (setq-default dired-dwim-target t))
-    
-(use-package nerd-icons-dired
+
+  (use-package nerd-icons-dired
     :hook
     (dired-mode . nerd-icons-dired-mode))
 #+end_src
@@ -217,10 +217,10 @@
     ("C-x C-b" . persp-list-buffers)
     ("C-x b" . persp-switch-to-buffer*)
     ("C-x k" . persp-kill-buffer*)
-     :custom
-     (persp-mode-prefix-key (kbd "C-c p"))
-     :init
-     (persp-mode))
+    :custom
+    (persp-mode-prefix-key (kbd "C-c p"))
+    :init
+    (persp-mode))
 #+end_src
 ** Completion
 *** Marginalia
@@ -515,15 +515,15 @@
   	  :target (file+head+olp "%<%Y-%m-%d>.org"
   							 "%[~/org/roam/templates/Daily.org]"
   							 ("TODOs")))
-     ("g" "Gedanken" entry "** %? :gedanken:"
+  	 ("g" "Gedanken" entry "** %? :gedanken:"
   	  :target (file+head+olp "%<%Y-%m-%d>.org"
   							 "%[~/org/roam/templates/Daily.org]"
   							 ("Gedanken")))
-     ("G" "Gefühle" entry "** %?"
+  	 ("G" "Gefühle" entry "** %?"
   	  :target (file+head+olp "%<%Y-%m-%d>.org"
   							 "%[~/org/roam/templates/Daily.org]"
   							 ("Gefühle")))
-     ("e" "Eintrag" entry "** %?"
+  	 ("e" "Eintrag" entry "** %?"
   	  :target (file+head+olp "%<%Y-%m-%d>.org"
   							 "%[~/org/roam/templates/Daily.org]"
   							 ("Geschehen"))))
@@ -541,7 +541,7 @@
     :config
     (org-roam-db-autosync-mode)
     (org-roam-setup))
-  #+end_src
+#+end_src
 *** Org-Roam-Ui
 #+begin_src elisp
   (use-package org-roam-ui
@@ -627,7 +627,7 @@
 ** Languages
 *** Spelling
 #+begin_src elisp
-(setq ispell-program-name "aspell")
+  (setq ispell-program-name "aspell")
 #+end_src
 *** Nix
 Idk why nix does not have a treesitter parser yet.
@@ -693,7 +693,7 @@ Temporarily disabled because nix cannot reach the git repo for some reason
 
   ;;   (setq emms-track-description-function #'my-emms-track-description)
   ;;   (emms-player-mpd-connect)
-    
+
   ;;   :bind
   ;;   ("s-m p" . emms)
   ;;   ("s-m b" . emms-smart-browse)
@@ -720,20 +720,20 @@ Temporarily disabled because nix cannot reach the git repo for some reason
 #+end_src
 *** Transparency
 #+begin_src elisp
-   (add-to-list 'default-frame-alist '(alpha-background . 95)) ; For all new frames henceforth
-   (set-frame-parameter nil 'alpha-background 95) ; For current frame
+  (add-to-list 'default-frame-alist '(alpha-background . 95)) ; For all new frames henceforth
+  (set-frame-parameter nil 'alpha-background 95) ; For current frame
 #+end_src
 *** nerd-icons
 #+begin_src elisp
-(use-package nerd-icons)
+  (use-package nerd-icons)
 
-(use-package nerd-icons-completion
-  :config
-  (nerd-icons-completion-mode))
+  (use-package nerd-icons-completion
+    :config
+    (nerd-icons-completion-mode))
 
-(use-package nerd-icons-ibuffer
-  :ensure t
-  :hook (ibuffer-mode . nerd-icons-ibuffer-mode))
+  (use-package nerd-icons-ibuffer
+    :ensure t
+    :hook (ibuffer-mode . nerd-icons-ibuffer-mode))
 #+end_src
 *** Ansi sequences in comp-mode
 #+begin_src elisp
