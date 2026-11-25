@@ -469,14 +469,14 @@
     :init
     (setq org-return-follows-link t)
     (setq org-startup-indented t)
-    :init
     (setq org-directory "~/org"
-  		org-agenda-files (directory-files-recursively org-directory "\\.org\\'"))
-    :init
-    (set-face-attribute 'org-document-title nil
-  					  :weight 'bold :height 1.5)
+        	org-agenda-files (directory-files-recursively org-directory "\\.org\\'"))
+    :config
+    (require 'org-faces)
+    (custom-set-faces
+     '(org-document-title ((t (:weight bold :height 1.5)))))
     (add-to-list 'display-buffer-alist
-  			   '("^\\*Org-Babel Error Output\\*$" . (display-buffer-no-window)))
+        		   '("^\\*Org-Babel Error Output\\*$" . (display-buffer-no-window)))
     :bind
     ("C-c a" . org-agenda)
     ("C-c c" . org-capture)
@@ -496,13 +496,13 @@
      '((sequence "TODO(t)" "PAUSED(p!)" "|" "DONE(d)" "CANCELED(p!@)")))
     (org-capture-templates
      '(
-  	 ("t" "TODO" entry (file "~/org/tasks.org")
-  	  "* TODO %?")
-  	 ("n" "Note" entry (file "~/org/notes.org")
-  	  "* %^{Title}\n%?")
-  	 ("e" "Event" entry (file "~/org/events.org")
-  	  (file "~/org/templates/Event.org"))
-  	 )))
+       ("t" "TODO" entry (file "~/org/tasks.org")
+        "* TODO %?")
+       ("n" "Note" entry (file "~/org/notes.org")
+        "* %^{Title}\n%?")
+       ("e" "Event" entry (file "~/org/events.org")
+        (file "~/org/templates/Event.org"))
+       )))
 #+end_src
 *** Org-Roam
 #+begin_src elisp
