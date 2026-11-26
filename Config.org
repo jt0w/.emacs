@@ -495,7 +495,7 @@
     (org-latex-preview-mode-display-live t)
     (org-pretty-entities t)
     (org-todo-keywords
-     '((sequence "TODO(t)" "PAUSED(p!)" "|" "DONE(d)" "CANCELED(p!@)")))
+     '((sequence "TODO(t)" "PAUSED(p!)" "|" "DONE(d)" "CANCELED(c@)")))
     (org-capture-templates
      '(
        ("t" "TODO" entry (file "~/org/tasks.org")
