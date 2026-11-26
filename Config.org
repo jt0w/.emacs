@@ -53,6 +53,7 @@
   - [[#misc][Misc]]
     - [[#pdf-tools][pdf-tools]]
     - [[#erc][erc]]
+    - [[#newsticker][newsticker]]
 
 * Emacs Config
 ** Nix shenanigans
@@ -763,3 +764,11 @@ Temporarily disabled because nix cannot reach the git repo for some reason
   			(setq show-trailing-whitespace nil)))
 #+end_src
 
+*** newsticker
+#+begin_src elisp
+  (use-package newsticker
+    :ensure nil
+    :custom
+    (newsticker-url-list
+     '(("Sacha Chua" "https://sachachua.com/blog/feed/index.xml"))))
+#+end_src
