@@ -45,6 +45,7 @@
   - [[#olivetti][olivetti]]
   - [[#direnv][Direnv]]
   - [[#emms][emms]]
+  - [[#mail][Mail]]
   - [[#ui][Ui]]
     - [[#theme][Theme]]
     - [[#transparency][Transparency]]
@@ -704,6 +705,61 @@ Temporarily disabled because nix cannot reach the git repo for some reason
   ;;   ("<XF86AudioPlay>" . emms-pause)
   ;;   ("<XF86AudioStop>" . emms-stop)
   ;;   )
+#+end_src
+** Mail
+#+begin_src elisp
+  (use-package mu4e
+    :bind
+    ("C-x m" . mu4e)
+    :config
+    (setq mu4e-change-filenames-when-moving t)
+    (setq mu4e-maildir "~/Mail/")
+    (setq user-full-name (getenv "USER_FULL_NAME"))
+
+    (setq mu4e-drafts-folder "/private/Drafts")
+    (setq mu4e-sent-folder   "/private/Sent Messages")
+    (setq mu4e-refile-folder "/private/Archive")
+    (setq mu4e-trash-folder  "/private/Junk")
+
+    (setq mu4e-completing-read-function 'completing-read
+  		mu4e-confirm-quit nil)
+
+    (setq mu4e-contexts
+     (list
+  	(make-mu4e-context
+  	 :name "Private"
+  	 :match-func
+  	 (lambda (msg)
+  	   (when msg
+  		 (string-prefix-p "/private" (mu4e-message-field msg :maildir))))
+  	 :vars `((user-mail-address  . ,(getenv "PRIVATE_MAIL_ADDRESS"))
+  			 (mu4e-drafts-folder . "/private/Drafts")
+  			 (mu4e-sent-folder   . "/private/Sent Messages")
+  			 (mu4e-refile-folder . "/private/Archive")
+  			 (mu4e-trash-folder  . "/private/Junk")
+  			 (mu4e-maildir-shortcuts  . (
+  										 (:maildir "/private/Inbox"         :key ?i)
+  										 (:maildir "/private/Sent Messages" :key ?s)
+  										 (:maildir "/private/Junk"	      :key ?t)
+  										 (:maildir "/private/Drafts"	      :key ?d)
+  										 (:maildir "/private/Archive"	      :key ?a)))))
+  	(make-mu4e-context
+  	 :name "Iserv"
+  	 :match-func
+  	 (lambda (msg)
+  	   (when msg
+  		 (string-prefix-p "/iserv" (mu4e-message-field msg :maildir))))
+  	 :vars `((user-mail-address  . ,(getenv "ISERV_MAIL_ADDRESS"))
+  			 (mu4e-drafts-folder . "/iserv/Drafts")
+  			 (mu4e-sent-folder   . "/iserv/Sent")
+  			 (mu4e-refile-folder . "/iserv/Archive")
+  			 (mu4e-trash-folder  . "/iserv/Trash")
+  			 (mu4e-maildir-shortcuts  . (
+  										 (:maildir "/iserv/Inbox"               :key ?i)
+  										 (:maildir "/iserv/Sent Messages"       :key ?s)
+  										 (:maildir "/iserv/Junk"	              :key ?t)
+  										 (:maildir "/iserv/Drafts"	      :key ?d)
+  										 (:maildir "/iserv/Archive"	      :key ?a))))))))
 #+end_src
 ** Ui
 *** Theme
